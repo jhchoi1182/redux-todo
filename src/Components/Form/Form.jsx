@@ -14,6 +14,9 @@ const Form = () => {
 
   const onEnteredTodo = (event) => {
     event.preventDefault();
+    if ((enteredTodo.title, enteredTodo.contents === "")) {
+      return;
+    }
     dispatch(addTodos(enteredTodo));
     setEnteredTodo({ title: "", contents: "" });
   };
@@ -22,9 +25,9 @@ const Form = () => {
     <form className="input-container" onSubmit={onEnteredTodo}>
       <div className="input-container-insidebox">
         <label className="form-label">제목 </label>
-        <input className="form-input" type="text" name="title" value={enteredTodo.title || ""} onChange={onEnteredInputHandler} required />
+        <input className="form-input" type="text" name="title" value={enteredTodo.title || ""} onChange={onEnteredInputHandler} />
         <label className="form-label">내용 </label>
-        <input className="form-input" type="text" name="contents" value={enteredTodo.contents || ""} onChange={onEnteredInputHandler} required />
+        <input className="form-input" type="text" name="contents" value={enteredTodo.contents || ""} onChange={onEnteredInputHandler} />
       </div>
       <div>
         <button className="add-button" type="submit">

@@ -1,21 +1,15 @@
 const ADD_TODOS = 'ADD_TODOS'
 const DELETE_TODOS = 'DELETE_TODOS'
 const CHANGE_TODOS = 'CHANGE_TODOS'
+const DETAIL_TODOS = 'DETAIL_TODOS'
 
 export const addTodos = payload => ({ type: ADD_TODOS, payload })
 export const deleteTodos = payload => ({ type: DELETE_TODOS, payload })
 export const changeTodos = payload => ({ type: CHANGE_TODOS, payload })
+export const detailTodos = payload => ({ type: DETAIL_TODOS, payload })
 
 const initialState = {
-  todos: [],
-  deleted: [],
-  done: []
-}
-
-const todosManage = todos => {
-  const notDone = todos.filter(todo => todo.state === false)
-  const isDone = todos.filter(todo => todo.state === true)
-  return { notDone, isDone }
+  todos: []
 }
 
 const todoList = (state = initialState, action) => {
@@ -35,16 +29,17 @@ const todoList = (state = initialState, action) => {
       const deletedTodo = state.todos.filter(todos => todos.id !== action.payload)
       return {
         ...state,
-        todos: deletedTodo,
-        deleted: todosManage(deletedTodo).notDone
+        todos: deletedTodo
       }
     case CHANGE_TODOS:
       const changeTodo = state.todos.map(todos => todos.id === action.payload ? { ...todos, state: !todos.state } : todos)
       return {
         ...state,
-        todos: changeTodo,
-        done: todosManage(changeTodo).isDone
+        todos: changeTodo
       }
+    case DETAIL_TODOS:
+      const detailTodo = state.todos.filter(todos => todos.id === action.payload)
+      return { ...state, detail: { ...detailTodo } }
     default:
       return state
   }

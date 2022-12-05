@@ -11,6 +11,7 @@ const Router = () => {
         <Routes>
           <Route path='/' element={<TodoList />} />
           <Route path='TodoDetail' element={<TodoDetail />} />
+          <Route path='TodoDetail/:id' element={<TodoDetail />} />
         </Routes>
       </Layout>
     </BrowserRouter>

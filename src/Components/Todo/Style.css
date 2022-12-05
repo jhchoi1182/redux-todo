@@ -25,3 +25,20 @@
   border-radius: 8px;
   background-color: transparent;
 }
+
+a {
+  color: black;
+  text-decoration-line: none;
+}
+
+a:visited {
+  color: black;
+}
+
+a:hover {
+  color: black;
+}
+
+a:active {
+  color: black;
+}

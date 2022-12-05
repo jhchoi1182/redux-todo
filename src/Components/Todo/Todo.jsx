@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { changeTodos, deleteTodos } from "../../Redux/Modules/Todos";
+import { Link } from "react-router-dom";
+import { changeTodos, deleteTodos, detailTodos } from "../../Redux/Modules/Todos";
 import "./Style.css";
 
 const Todo = ({ todo }) => {
@@ -10,6 +11,9 @@ const Todo = ({ todo }) => {
   return (
     <div className="Todo">
       <div>
+        <Link to="/TodoDetail" onClick={() => dispatch(detailTodos(id))}>
+          상세보기
+        </Link>
         <h2>{title}</h2>
         <p>{contents}</p>
       </div>

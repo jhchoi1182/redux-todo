@@ -3,3 +3,24 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
+.detail-container {
+  margin: auto;
+  width: 600px;
+  height: 400px;
+  border: 1px solid gainsboro;
+  padding: 30px;
+}
+
+.detail-top-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-button {
+  border: 1px solid gainsboro;
+  border-radius: 8px;
+  background-color: transparent;
+  width: 120px;
+  height: 40px;
+}
