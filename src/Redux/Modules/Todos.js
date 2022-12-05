@@ -8,7 +8,8 @@ export const changeTodos = payload => ({ type: CHANGE_TODOS, payload })
 
 const initialState = {
   todos: [],
-  deleted: []
+  deleted: [],
+  done: []
 }
 
 const todosManage = todos => {
@@ -37,10 +38,13 @@ const todoList = (state = initialState, action) => {
         todos: deletedTodo,
         deleted: todosManage(deletedTodo).notDone
       }
-    // case CHANGE_TODOS:
-    //   return {
-    //     todos: 
-    //   }
+    case CHANGE_TODOS:
+      const changeTodo = state.todos.map(todos => todos.id === action.payload ? { ...todos, state: !todos.state } : todos)
+      return {
+        ...state,
+        todos: changeTodo,
+        done: todosManage(changeTodo).isDone
+      }
     default:
       return state
   }

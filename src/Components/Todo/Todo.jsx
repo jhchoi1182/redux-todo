@@ -4,7 +4,7 @@ import { changeTodos, deleteTodos } from "../../Redux/Modules/Todos";
 import "./Style.css";
 
 const Todo = ({ todo }) => {
-  const { id, title, contents } = todo;
+  const { id, state, title, contents } = todo;
   const dispatch = useDispatch();
 
   return (
@@ -18,7 +18,7 @@ const Todo = ({ todo }) => {
           삭제하기
         </button>
         <button className="complete-button" type="button" onClick={() => dispatch(changeTodos(id))}>
-          이동
+          {state ? "취소" : "완료"}
         </button>
       </div>
     </div>

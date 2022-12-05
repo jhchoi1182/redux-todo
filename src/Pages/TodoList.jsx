@@ -9,11 +9,15 @@ const TodoList = () => {
       <h2>Working.. 🔥</h2>
       <div className="Todo-box">
         {todos.map((todo) => {
-          return <Todo key={todo.id} todo={todo} />;
+          return todo.state ? null : <Todo key={todo.id} todo={todo} />;
         })}
       </div>
       <h2>Done..! 🎉</h2>
-      <div className="Todo-box"></div>
+      <div className="Todo-box">
+        {todos.map((todo) => {
+          return todo.state ? <Todo key={todo.id} todo={todo} /> : null;
+        })}
+      </div>
     </div>
   );
 };
