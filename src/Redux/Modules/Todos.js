@@ -8,14 +8,14 @@ export const changeTodos = payload => ({ type: CHANGE_TODOS, payload })
 
 const initialState = {
   todos: [],
-  // deleted: []
+  deleted: []
 }
 
-// const todoManage = todos => {
-//   const notDone = todos.filter(todo => todo.state === false)
-//   const isDone = todos.filter(todo => todo.state === true)
-//   return { notDone, isDone }
-// }
+const todosManage = todos => {
+  const notDone = todos.filter(todo => todo.state === false)
+  const isDone = todos.filter(todo => todo.state === true)
+  return { notDone, isDone }
+}
 
 const todoList = (state = initialState, action) => {
   switch (action.type) {
@@ -31,12 +31,11 @@ const todoList = (state = initialState, action) => {
         todos: [...state.todos, todo]
       }
     case DELETE_TODOS:
-      // const deltedId = action.payload;
-      const deletedTodo = todo.filter(todos => todos.id !== action.payload.id)
+      const deletedTodo = state.todos.filter(todos => todos.id !== action.payload)
       return {
-        // ...state,
-        todo: [...state.todos, deletedTodo],
-        // deleted: [...state.todos, deletedTodo].notDone
+        ...state,
+        todos: deletedTodo,
+        deleted: todosManage(deletedTodo).notDone
       }
     // case CHANGE_TODOS:
     //   return {

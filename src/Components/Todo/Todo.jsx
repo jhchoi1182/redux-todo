@@ -14,7 +14,7 @@ const Todo = ({ todo }) => {
         <p>{contents}</p>
       </div>
       <div className="select">
-        <button className="delete-button" type="button" onClick={() => dispatch(deleteTodos(todo))}>
+        <button className="delete-button" type="button" onClick={() => dispatch(deleteTodos(id))}>
           삭제하기
         </button>
         <button className="complete-button" type="button" onClick={() => dispatch(changeTodos(id))}>
