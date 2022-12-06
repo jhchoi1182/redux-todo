@@ -1,7 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import "./Style.css";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import './Style.css';
 
 const TodoDetail = () => {
   const navigate = useNavigate();
@@ -12,14 +12,7 @@ const TodoDetail = () => {
     <div className="detail-container">
       <div className="detail-top-box">
         <p>ID : {id}</p>
-        <button
-          className="detail-button"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          이전으로
-        </button>
+        <button className="detail-button" onClick={() => {navigate('/');}}>이전으로</button>
       </div>
       <div>
         <h2>{title}</h2>
