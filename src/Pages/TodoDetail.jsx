@@ -5,7 +5,7 @@ import './Style.css';
 
 const TodoDetail = () => {
   const navigate = useNavigate();
-  const { detail } = useSelector((state) => state);
+  const { detail } = useSelector((state) => state.Todos);
   const { id, title, contents } = detail[0];
 
   return (

@@ -11,7 +11,7 @@ const Todo = ({ todo }) => {
   return (
     <div className="Todo">
       <div>
-        <Link to="/TodoDetail" onClick={() => dispatch(detailTodos(id))}>상세보기</Link>
+        <Link to={`/TodoDetail/${id}`} onClick={() => dispatch(detailTodos(id))}>상세보기</Link>
         <h2>{title}</h2>
         <p>{contents}</p>
       </div>
