@@ -10,6 +10,7 @@ export const detailTodos = (payload) => ({ type: DETAIL_TODOS, payload });
 
 const initialState = {
   todos: [],
+  detail: {}
 };
 
 const todoList = (state = initialState, action) => {
@@ -33,8 +34,8 @@ const todoList = (state = initialState, action) => {
       return { ...state, todos: changeTodo };
 
     case DETAIL_TODOS:
-      const detailTodo = state.todos.filter((todos) => todos.id === action.payload);
-      return { ...state, detail: { ...detailTodo } };
+      const detailTodo = state.todos.find((todos) => todos.id === action.payload);
+      return { ...state, detail: detailTodo };
 
     default:
       return state;
