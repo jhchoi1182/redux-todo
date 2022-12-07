@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Style.css';
 
 const TodoDetail = () => {
   const navigate = useNavigate();
   const { detail } = useSelector((state) => state.Todos);
+  const location = useLocation()
 
+  console.log(`/TodoDetail/${detail.id}`);
+  console.log(location.pathname)
+
+  useEffect(() => {
+    if(location.pathname !== `/TodoDetail/${detail.id}`)
+    navigate(-1)
+  }, [detail])
+  
 if (detail){
   // const {id, title, content} = detail
   return (
@@ -22,6 +31,9 @@ if (detail){
     </div>
   );
 }
+// else if (!detail) {
+//   return <div>{navigate('/')}</div>
+// }
 };
 
 export default TodoDetail;
