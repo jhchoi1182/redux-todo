@@ -4,14 +4,15 @@ import Layout from '../Components/Shared/Layout';
 import Todo from '../Components/Todo/Todo';
 
 const TodoList = () => {
-  const { todos } = useSelector((state) => state.Todos);
+  const {todos} = useSelector((state) => state.Todos);
+  console.log(todos)
   return (
     <Layout>
       <div>
         <h2>Working.. 🔥</h2>
         <div className="Todo-box">
           {todos.state && null}
-          {!todos.state && todos.map((todo) => {
+          {!todos.state && todos?.map((todo) => {
               return todo.state ? null : <Todo key={todo.id} todo={todo} />;
             })}
         </div>

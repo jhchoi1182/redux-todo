@@ -1,3 +1,5 @@
+import { getLocal, setLocal } from "../util/Local";
+
 const ADD_TODOS = 'ADD_TODOS';
 const DELETE_TODOS = 'DELETE_TODOS';
 const CHANGE_TODOS = 'CHANGE_TODOS';
@@ -9,7 +11,10 @@ export const changeTodos = (payload) => ({ type: CHANGE_TODOS, payload });
 export const detailTodos = (payload) => ({ type: DETAIL_TODOS, payload });
 
 const initialState = {
-  todos: [],
+  todos: getLocal() ?? [],
+  //getLocal()?getLocal():[]
+  // 로컬스토리지에 값이 있으면 null이 안되죠? 근데 없으면? null이되죠.
+  // 로컬스토리지를 지우고 나니까 오류가 났다=>
   detail: {}
 };
 
@@ -23,14 +28,18 @@ const todoList = (state = initialState, action) => {
         title: title,
         contents: contents,
       };
+      setLocal([...state.todos, todo])
       return { todos: [...state.todos, todo] };
 
     case DELETE_TODOS:
       const deletedTodo = state.todos.filter((todos) => todos.id !== action.payload);
+      localStorage.setItem('todo', 'DELETED')
+      setLocal(deletedTodo)
       return { ...state, todos: deletedTodo };
 
     case CHANGE_TODOS:
       const changeTodo = state.todos.map((todos) => (todos.id === action.payload ? { ...todos, state: !todos.state } : todos));
+      setLocal(changeTodo)
       return { ...state, todos: changeTodo };
 
     case DETAIL_TODOS:
