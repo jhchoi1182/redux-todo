@@ -5,6 +5,7 @@ const DELETE_TODOS = 'DELETE_TODOS';
 const CHANGE_TODOS = 'CHANGE_TODOS';
 const DETAIL_TODOS = 'DETAIL_TODOS';
 
+
 export const addTodos = (payload) => ({ type: ADD_TODOS, payload });
 export const deleteTodos = (payload) => ({ type: DELETE_TODOS, payload });
 export const changeTodos = (payload) => ({ type: CHANGE_TODOS, payload });
