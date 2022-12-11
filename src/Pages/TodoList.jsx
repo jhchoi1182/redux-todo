@@ -5,7 +5,7 @@ import Todo from '../Components/Todo/Todo';
 
 const TodoList = () => {
   const {todos} = useSelector((state) => state.Todos);
-  console.log(todos)
+
   return (
     <Layout>
       <div>
