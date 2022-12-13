@@ -1,10 +1,16 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import Layout from '../Components/Shared/Layout';
-import Todo from '../Components/Todo/Todo';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Layout from "../Components/Shared/Layout";
+import Todo from "../Components/Todo/Todo";
+import { getTodos } from "../Redux/Modules/Todos";
 
 const TodoList = () => {
-  const {todos} = useSelector((state) => state.Todos);
+  const { todos } = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, []);
 
   return (
     <Layout>
@@ -12,7 +18,8 @@ const TodoList = () => {
         <h2>Working.. 🔥</h2>
         <div className="Todo-box">
           {todos.state && null}
-          {!todos.state && todos?.map((todo) => {
+          {!todos.state &&
+            todos?.map((todo) => {
               return todo.state ? null : <Todo key={todo.id} todo={todo} />;
             })}
         </div>

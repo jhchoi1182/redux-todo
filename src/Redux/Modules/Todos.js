@@ -1,53 +1,140 @@
-import { getLocal, setLocal } from "../util/Local";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const ADD_TODOS = 'ADD_TODOS';
-const DELETE_TODOS = 'DELETE_TODOS';
-const CHANGE_TODOS = 'CHANGE_TODOS';
-const DETAIL_TODOS = 'DETAIL_TODOS';
+export const getTodos = createAsyncThunk(
+  "GET_TODO",
+  async (payload, thunkApi) => {
+    try {
+      const data = await axios.get("http://localhost:3001/todos")
+      return thunkApi.fulfillWithValue(data.data)
+    } catch (error) {
+      return thunkApi.rejectWithValue(error)
+    }
+  }
+)
 
+export const addTodos = createAsyncThunk(
+  "ADD_TODO",
+  async (todo, thunkApi) => {
+    try {
+      await axios.post("http://localhost:3001/todos", todo)
+      return thunkApi.fulfillWithValue(todo)
+    } catch (error) {
+      return thunkApi.rejectWithValue(error)
+    }
+  }
+)
 
-export const addTodos = (payload) => ({ type: ADD_TODOS, payload });
-export const deleteTodos = (payload) => ({ type: DELETE_TODOS, payload });
-export const changeTodos = (payload) => ({ type: CHANGE_TODOS, payload });
-export const detailTodos = (payload) => ({ type: DETAIL_TODOS, payload });
+export const deleteTodos = createAsyncThunk(
+  "DELETE_TODO",
+  async (id, thunkApi) => {
+    try {
+      await axios.delete(`http://localhost:3001/todos/${id}`)
+      return thunkApi.fulfillWithValue(id)
+    } catch (error) {
+      return thunkApi.rejectWithValue(error)
+    }
+  }
+)
+
+export const changeTodos = createAsyncThunk(
+  "CHANGE_TODO",
+  async (todo, thunkApi) => {
+    try {
+      await axios.patch(`http://localhost:3001/todos/${todo.id}`, { state: !todo.state })
+      return thunkApi.fulfillWithValue(todo)
+    } catch (error) {
+      return thunkApi.rejectWithValue(error)
+    }
+  }
+)
+
+export const detailTodos = createAsyncThunk(
+  "DETAIL_TODO",
+  async (todo, thunkApi) => {
+    try {
+      const detail = await axios.get(`http://localhost:3001/todos/${todo}`)
+      const result = { ...detail.data }
+      return result
+    } catch (error) {
+      return thunkApi.rejectWithValue(error)
+    }
+  }
+)
 
 const initialState = {
-  todos: getLocal() ? getLocal() : [],
-  // getLocal() ?? []로 줄일 수 있음
-  detail: {}
+  todos: [],
+  detail: {},
+  isLoading: false,
+  error: null,
 };
 
-const todoList = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_TODOS:
-      const { title, contents } = action.payload;
-      const todo = {
-        id: `todos_${new Date().getTime() + Math.random()}`,
-        state: false,
-        title: title,
-        contents: contents,
-      };
-      setLocal([...state.todos, todo])
-      return { todos: [...state.todos, todo] };
+const todoSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getTodos.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTodos.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.todos = action.payload
+      })
+      .addCase(getTodos.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
 
-    case DELETE_TODOS:
-      const deletedTodo = state.todos.filter((todos) => todos.id !== action.payload);
-      // localStorage.setItem('todo', 'DELETED')
-      setLocal(deletedTodo)
-      return { ...state, todos: deletedTodo };
+      .addCase(addTodos.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addTodos.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.todos = [...state.todos, action.payload]
+      })
+      .addCase(addTodos.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
 
-    case CHANGE_TODOS:
-      const changeTodo = state.todos.map((todos) => (todos.id === action.payload ? { ...todos, state: !todos.state } : todos));
-      setLocal(changeTodo)
-      return { ...state, todos: changeTodo };
+      .addCase(deleteTodos.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteTodos.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+      })
+      .addCase(deleteTodos.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
 
-    case DETAIL_TODOS:
-      const detailTodo = state.todos.find((todos) => todos.id === action.payload);
-      return { ...state, detail: detailTodo };
+      .addCase(changeTodos.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changeTodos.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.todos = state.todos.map((todo) => (todo.id === action.payload.id ? { ...todo, state: !todo.state } : todo));
+      })
+      .addCase(changeTodos.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
 
-    default:
-      return state;
+      .addCase(detailTodos.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(detailTodos.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.detail = action.payload
+      })
+      .addCase(detailTodos.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
   }
-};
+})
 
-export default todoList;
+export default todoSlice.reducer;

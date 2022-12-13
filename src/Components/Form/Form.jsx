@@ -15,7 +15,14 @@ const Form = () => {
   const onEnteredTodo = (event) => {
     event.preventDefault();
     if ((enteredTodo.title, enteredTodo.contents === "")) return null;
-    dispatch(addTodos(enteredTodo));
+    const { title, contents } = enteredTodo;
+    const todo = {
+      id: `todos_${new Date().getTime() + Math.random()}`,
+      state: false,
+      title: title,
+      contents: contents,
+    };
+    dispatch(addTodos(todo));
     setEnteredTodo({ title: "", contents: "" });
   };
 
