@@ -51,11 +51,10 @@ export const changeTodos = createAsyncThunk(
 
 export const detailTodos = createAsyncThunk(
   "DETAIL_TODO",
-  async (todo, thunkApi) => {
+  async (id, thunkApi) => {
     try {
-      const detail = await axios.get(`http://localhost:3001/todos/${todo}`)
-      const result = { ...detail.data }
-      return result
+      const detail = await axios.get(`http://localhost:3001/todos/${id}`)
+      return thunkApi.fulfillWithValue(detail.data);
     } catch (error) {
       return thunkApi.rejectWithValue(error)
     }
